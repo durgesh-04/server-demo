@@ -1,6 +1,8 @@
 const express = require('express');
+const cors = require('cors');
 
 const app = express();
+
 
 let spy = {
 	up : "vbvnv",
@@ -9,6 +11,7 @@ let spy = {
 	right :""
 }
 
+app.use(cors());
 app.use(express.json());
 
 app.get('/', (req,res)=>{
