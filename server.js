@@ -28,4 +28,4 @@ app.get('/values', (req,res)=>{
 	res.send(spy);
 })
 
-app.listen(4000);
+app.listen(process.env.PORT || 4000);
