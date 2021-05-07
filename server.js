@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
 const app = express();
+var router = express.Router();
 
 const upload = multer({
 dest: 'images',
