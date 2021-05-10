@@ -1,33 +1,15 @@
 const express = require('express');
 const cors = require('cors');
-const multer = require('multer');
 const app = express();
-var router = express.Router();
 
-const upload = multer({
-dest: 'images',
-limits: {
-fileSize: 1000000,
-},
-fileFilter(req, file, cb) {
-if (!file.originalname.match(/\.(png|jpg|jpeg)$/)){
-cb(new Error('Please upload an image.'))
-}
-cb(undefined, true)
-}
-})
-
-image: {
-type: Buffer
-}
-
+let val {};
 let spy = {
-	up : "False",
-	down : "False",
-	left : "False",
-	right : "False",
-	speed : "4"
-}
+	up = "",
+	down= "",
+	left= "",
+	right = "",
+	speed = ""
+};
 
 let temp;
 
@@ -39,10 +21,16 @@ app.get('/', (req,res)=>{
 })
 
 app.post('/values', (req,res)=>{
-	spy = req.body;
+	val = req.body;
 	console.log(spy)
 	res.send("got values");
 })
+
+spy.up = val.up;
+spy.down = val.down;
+spy.left = val.left;
+spy.right = val.right;
+spy.speed = val.speed;
 
 app.get('/values', (req,res)=>{
 	res.send(spy);
@@ -56,46 +44,5 @@ app.get('/temp',(req,res)=>{
 	res.send(t);
 })
 
-app.post('/stream', upload.single('upload'), (req, res) => {
-res.send()
-})
-
-router.post('/stream', upload.single('upload'), async (req, res) => {
-try {
-const incident = await Incident.findById(req.body.id)
-incident.image = req.file.buffer
-incident.save()
-res.send()
-} catch (e){
-res.status(400).send(e)
-}
-}, (error, req, res, next) => {
-res.status(400).send({error: error.message})
-})
-
-router.delete('/upload', async (req, res) => {
-try {
-const incident = await Incident.findById(req.body.id)
-incident.image = undefined
-incident.save()
-res.send()
-} catch (e) {
-res.status(400).send(e)
-}
-})
-
-router.get('/:id/image', async (req, res) => {
-try{
-const incident = await Incident.findById(req.params.id)
-if (!incident || !incident.image) {
-throw new Error()
-}
-//response header, use set
-res.set('Content-Type', 'image/png')
-res.send(incident.image)
-} catch(e) {
-res.status(404).send()
-}
-})
 
 app.listen(process.env.PORT || 4000);
