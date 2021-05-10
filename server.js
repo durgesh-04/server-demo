@@ -2,8 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 
-let val {};
-let spy = {
+var val = {};
+var spy = {
 	up = "",
 	down= "",
 	left= "",
