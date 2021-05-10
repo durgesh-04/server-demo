@@ -2,14 +2,10 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 
-var val = {};
-var spy = {
-	up = "",
-	down= "",
-	left= "",
-	right = "",
-	speed = ""
-};
+
+let spy = {
+	
+}
 
 let temp;
 
@@ -21,16 +17,10 @@ app.get('/', (req,res)=>{
 })
 
 app.post('/values', (req,res)=>{
-	val = req.body;
+	spy = req.body;
 	console.log(spy)
 	res.send("got values");
 })
-
-spy.up = val.up;
-spy.down = val.down;
-spy.left = val.left;
-spy.right = val.right;
-spy.speed = val.speed;
 
 app.get('/values', (req,res)=>{
 	res.send(spy);
